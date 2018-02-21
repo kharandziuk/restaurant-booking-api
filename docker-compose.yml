@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  web:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    command: sleep infinity
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=django_restaurant_booking_challenge.settings
