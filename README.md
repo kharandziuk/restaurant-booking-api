@@ -20,3 +20,6 @@ can interact with other services so that reservations can be handled by third pa
 A basic environment will be provided, containing:
 * Docker container with volumes for code and database
 * Django environment with some modules pre-installed and with scaffolding for an app (Restaurant model, ...)
+
+## Submitting your solution
+Please compress the repository's root folder and send it to us, so we can evaluate your changes
