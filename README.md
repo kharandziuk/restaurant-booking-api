@@ -24,3 +24,4 @@ A basic environment will be provided, containing:
 ## Submitting your solution
 Please compress the repository's root folder and send it to Tech-challenge@orderbird.com , so we can evaluate your changes.
 Do not remove the git information, so we can easily find your changes.
+Do not upload it to a public repository, just submit it to us by email.
