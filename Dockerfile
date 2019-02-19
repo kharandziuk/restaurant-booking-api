@@ -1,4 +1,4 @@
-FROM python:2.7.13-slim
+FROM python:3.7-slim
 
 RUN apt-get update --quiet && apt-get upgrade -y --quiet
 RUN apt-get install -y --quiet sqlite3 libsqlite3-dev
