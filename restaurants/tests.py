@@ -10,7 +10,10 @@ from .models import (
     Reservation,
 )
 
+
 class RestaurantReservationTestCase(TestCase):
+    """Tests for the Restaurant models."""
+
     def setUp(self):
         self.restaurant = Restaurant.objects.create(
             name="Testaurant",
@@ -47,4 +50,3 @@ class RestaurantReservationTestCase(TestCase):
         )
         self.assertEqual(self.restaurant.reservations(time).count(), 2)
         self.assertEqual(self.restaurant.num_seats_available(time), 5)
-

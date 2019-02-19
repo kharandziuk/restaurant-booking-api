@@ -1,20 +1,30 @@
 # Coding Challenge: Simple Restaurant Booking System
+
 ## User Story ##
 As a restaurant owner I want a system for making and tracking reservations which
 can interact with other services so that reservations can be handled by third party services.
-* The system can be used by multiple restaurants
-* The system provides REST API endpoints:
-    * To make reservations
-    * To check if a number of seats is available at a certain time
+
+The system provides REST API with endpoints:
+* To make reservations
+* To check how many seats are available at a certain point of time
+* To get an overview of the booked tables per restaurant (this endpoint will have two possible outputs: the regular JSON, and HTML so the owner can use as it a report)
+
+Besides, the system offers a Back office where the restaurant staff can easily manage reservations (you can use Django Admin for this).
+
+**Considerations**
 * A reservation is for a name (any string) and for a certain amount of time
-* The restaurant owner can get an overview over the booked tables as a HTML report
+* The system can be used by multiple restaurants
+* Those restaurants can be in different parts of the world
+* When possible, use third-party packages
+* Include an example of each endpoint so the person that reviews the code doesn't miss anything. A Postman collection (or similar) is also fine.
 
-**Limitations**
-* Authentication/Authorization isn't in the scope of this task
-* No localization needed
+**Out of the scope of this task**
 
-**Hints**
-* Use third-party packages where applicable!
+To keep the coding challenge as short as possible, the following tasks are not required:
+
+* User filtering: we assume that all the restaurants belong to the same person/company
+* Design/Styling
+* Localization
 
 ## Provided Environment ##
 A basic environment will be provided, containing:
@@ -22,6 +32,6 @@ A basic environment will be provided, containing:
 * Django environment with some modules pre-installed and with scaffolding for an app (Restaurant model, ...)
 
 ## Submitting your solution
-Please compress the repository's root folder and send it to Tech-challenge@orderbird.com , so we can evaluate your changes.
-Do not remove the git information, so we can easily find your changes.
-Do not upload it to a public repository, just submit it to us by email.
+* Compress the repository's root folder and send it to tech-challenge@orderbird.com
+* Do not remove the git information, so we can easily review your changes
+* Do not fork the repository or upload it to a public repository, just submit it to us by email
