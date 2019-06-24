@@ -13,6 +13,10 @@ class ReservationList(mixins.ListModelMixin,
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+    def get_queryset(self):
+        restaurant_id =  self.kwargs.get('restaurant_id')
+        return super().get_queryset().filter(restaurant=restaurant_id)
+
 
 class RestaurantList(mixins.ListModelMixin,
         generics.GenericAPIView):

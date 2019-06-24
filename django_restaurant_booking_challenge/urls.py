@@ -21,7 +21,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('restaurants/', views.RestaurantList.as_view(), name='restaurants'),
-    path('reservations/', views.ReservationList.as_view(), name='reservations'),
+    path('restaurants/<int:restaurant_id>/reservations', views.ReservationList.as_view(), name='reservations'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
