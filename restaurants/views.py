@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from rest_framework import mixins
+from rest_framework import generics
 
-from django.shortcuts import render
+from . import serializers, models
 
-# Create your views here.
+class ReservationList(mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        generics.GenericAPIView):
+    queryset = models.Reservation.objects.all()
+    serializer_class = serializers.ReservationSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
