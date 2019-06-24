@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import (Q, Sum)
 
 
-class Restaurant (models.Model):
+class Restaurant(models.Model):
     """Model for restaurant."""
 
     name = models.CharField(

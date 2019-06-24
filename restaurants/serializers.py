@@ -12,3 +12,11 @@ class ReservationSerializer(serializers.ModelSerializer):
             'to_time',
             'num_guests',
         )
+
+class RestaurantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Restaurant
+        fields = (
+            'name',
+            'num_seats',
+        )

@@ -13,3 +13,11 @@ class ReservationList(mixins.ListModelMixin,
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+
+class RestaurantList(mixins.ListModelMixin,
+        generics.GenericAPIView):
+    queryset = models.Restaurant.objects.all()
+    serializer_class = serializers.RestaurantSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)

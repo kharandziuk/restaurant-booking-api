@@ -20,6 +20,7 @@ from restaurants import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
+    path('restaurants/', views.RestaurantList.as_view(), name='restaurants'),
     path('reservations/', views.ReservationList.as_view(), name='reservations'),
 ]
 
