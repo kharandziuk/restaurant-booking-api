@@ -14,6 +14,7 @@ py==1.8.0
 pyparsing==2.4.0
 pytest==4.6.3
 pytest-django==3.5.0
+pytest-only==1.2.1
 python-dateutil==2.8.0
 pytz==2019.1
 six==1.12.0
