@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "533179f8-c934-4de2-a5fc-d47a85cec5bb",
+		"name": "reservations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create reservation for a restaurant",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5f0a6299-7cb5-46d6-b2fa-0147901647da",
+						"exec": [
+							"var moment = require('moment')",
+							"pm.globals.set(\"timestamp\", moment().toISOString())",
+							"pm.globals.set(\"timestampPlusHour\", moment().add('hour', 2).toISOString())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"max\",\n\t\"num_guests\": 2,\n\t\"from_time\": \"{{timestamp}}\",\n\t\"to_time\": \"{{timestampPlusHour}}\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/restaurants/1/reservations",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "dfdf",
+							"value": "dfdfd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookings.json report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/restaurants/1/bookings.json",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"1",
+						"bookings.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurant availability",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/restaurants/2/availability/2019-06-25:15:45",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"restaurants",
+						"2",
+						"availability",
+						"2019-06-25:15:45"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
