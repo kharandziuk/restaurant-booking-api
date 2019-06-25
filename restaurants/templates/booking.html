@@ -1,0 +1,6 @@
+<h1>{{ name }} with {{ num_seats }} seats</h1>
+<ul>
+{% for reservation in reservation_set %}
+  <li>{{reservation}}</li>
+{% endfor %}
+</ul>

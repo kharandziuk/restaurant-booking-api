@@ -75,3 +75,15 @@ class AvailabilitySerializer(serializers.ModelSerializer):
         except ValueError:
             raise serializers.ValidationError('datetime in a wrong format')
         return obj.num_seats_available(_datetime)
+
+
+class RestaurantBookingSerializer(serializers.ModelSerializer):
+    reservation_set = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = models.Restaurant
+        fields = (
+            'name',
+            'num_seats',
+            'reservation_set'
+        )

@@ -95,3 +95,22 @@ def test_can_check_availability_for_a_restaurant(django_app):
     )
     assert response.status_code == 200
     assert response.json == {'id': 1, 'seats_available': 10}
+
+def test_can_check_bookings_for_restaurant_json(django_app):
+    restaurant = factories.RestaurantFactory()
+    factories.ReservationFactory(restaurant=restaurant)
+    factories.ReservationFactory(restaurant=restaurant)
+    factories.ReservationFactory(restaurant=restaurant)
+    response = django_app.get(reverse('booking.json', kwargs=dict(restaurant_id=restaurant.id)))
+    assert response.status_code == 200
+    assert response.json['name'] == 'Restaurant 009'
+    assert response.json['num_seats'] == 10
+    assert len(response.json['reservation_set']) == 3
+
+def test_can_check_bookings_for_restaurant_html(django_app):
+    restaurant = factories.RestaurantFactory()
+    reservation = factories.ReservationFactory(restaurant=restaurant)
+    response = django_app.get(reverse('booking.html', kwargs=dict(restaurant_id=restaurant.id)))
+    assert response.status_code == 200
+    assert restaurant.name in response.text
+    assert reservation.name in response.text

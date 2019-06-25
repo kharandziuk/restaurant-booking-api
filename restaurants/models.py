@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import (Q, Sum)
+from django.conf import settings
 
 
 class Restaurant(models.Model):
@@ -20,7 +21,7 @@ class Restaurant(models.Model):
         validators=[MinValueValidator(1)],
     )
 
-    def __unicode__(self):
+    def __str__(self):
         """Unicode representation."""
         return "Restaurant {name} ({num} seats)".format(
             name=self.name,
@@ -68,7 +69,7 @@ class Reservation(models.Model):
         validators=[MinValueValidator(1)],
     )
 
-    def __unicode__(self):
+    def __str__(self):
         """Unicode representation."""
         return (
             "Reservation for {name} at {restaurant}: {num} guests from {start}"
@@ -77,6 +78,7 @@ class Reservation(models.Model):
             name=self.name,
             restaurant=self.restaurant.name,
             num=self.num_guests,
-            start=self.from_time,
-            end=self.to_time,
+            start=self.from_time.strftime(settings.DATETIME_FORMAT),
+            end=self.to_time.strftime(settings.DATETIME_FORMAT),
         )
+

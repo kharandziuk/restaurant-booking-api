@@ -29,6 +29,12 @@ urlpatterns = [
     path('restaurants/<int:restaurant_id>/availability/<str:datetime>',
         views.AvailabilityView.as_view(),
         name='availability'),
+    path('restaurants/<int:restaurant_id>/bookings.html',
+        views.RestaurantBookingHTMLView.as_view(),
+        name='booking.html'),
+    path('restaurants/<int:restaurant_id>/bookings.json',
+        views.RestaurantBookingJSONView.as_view(),
+        name='booking.json'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

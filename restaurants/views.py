@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from rest_framework import viewsets, generics
+from rest_framework.renderers import TemplateHTMLRenderer
 
 from . import serializers, models
 
@@ -31,3 +32,14 @@ class AvailabilityView(generics.RetrieveAPIView):
         context = super().get_serializer_context()
         context['datetime'] = self.kwargs.get('datetime')
         return context
+
+
+class RestaurantBookingJSONView(generics.RetrieveAPIView):
+    queryset = models.Restaurant.objects.all()
+    serializer_class = serializers.RestaurantBookingSerializer
+    lookup_url_kwarg = 'restaurant_id'
+
+
+class RestaurantBookingHTMLView(RestaurantBookingJSONView):
+    renderer_classes = (TemplateHTMLRenderer,)
+    template_name = 'booking.html'
