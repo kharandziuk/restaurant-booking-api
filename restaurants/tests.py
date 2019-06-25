@@ -58,6 +58,7 @@ def test_can_create_reservation_for_a_restaurant(django_app):
 
 def test_cant_create_reservation_for_mt_available_seats(django_app):
     restaurant = factories.RestaurantFactory()
+    factories.ReservationFactory(restaurant=restaurant)
     response = django_app.get(reverse('restaurants'))
     assert response.status_code == 200
     _reservation = factories.ReservationFactory.build()

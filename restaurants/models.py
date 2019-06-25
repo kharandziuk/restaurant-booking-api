@@ -38,7 +38,7 @@ class Restaurant(models.Model):
             return self.num_seats
         num_reserved = reservations.aggregate(
             Sum('num_guests'),
-        ).values()[0]
+        )['num_guests__sum']
         return self.num_seats - num_reserved
 
     def reservations(self, timestamp):

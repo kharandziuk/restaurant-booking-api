@@ -30,6 +30,7 @@ class ReservationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("not enough space")
         return super().validate(data)
 
+
 class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
