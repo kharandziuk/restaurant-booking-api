@@ -13,9 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path
+from django.contrib import admin
+from rest_framework import routers
+from restaurants import views
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    path('', include('restaurants.urls'))
+    path('restaurants/',
+        views.RestaurantViewSet.as_view(dict(get='list')),
+        name='restaurants'),
+    path('restaurants/<int:restaurant_id>/reservations',
+        views.ReservationViewSet.as_view(dict(get='list', post='create')),
+        name='reservations'),
+    path('restaurants/<int:restaurant_id>/availability/<str:datetime>',
+        views.AvailabilityView.as_view(),
+        name='availability'),
 ]
 
+urlpatterns = format_suffix_patterns(urlpatterns)
