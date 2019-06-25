@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from urllib.parse import unquote
+from rest_framework.reverse import reverse
+
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import (Q, Sum)
@@ -44,6 +47,29 @@ class Restaurant(models.Model):
             Q(from_time__lte=timestamp),
             Q(to_time__gte=timestamp),
         )
+
+    def reservations_url(self):
+        return reverse('reservations', kwargs={
+            'restaurant_id': self.id
+        })
+
+    def availability_url(self):
+        url = reverse('availability', kwargs={
+            'restaurant_id': self.pk,
+            'datetime': '{datetime}'
+        })
+        return unquote(url)
+
+    def html_report_url(self):
+        return reverse('booking.html', kwargs={
+            'restaurant_id': self.pk,
+        })
+
+    def json_report_url(self):
+        return reverse('booking.json', kwargs={
+            'restaurant_id': self.pk,
+        })
+
 
 
 class Reservation(models.Model):

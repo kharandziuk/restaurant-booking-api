@@ -33,9 +33,10 @@ def test_can_receive_list_of_the_restaurants(django_app):
     assert response.json == [{
         'name': restaurant.name,
         'num_seats': restaurant.num_seats,
-        'reservations_url':
-            reverse('reservations', kwargs={'restaurant_id': restaurant.pk}),
-        'availability_url': '/restaurants/1/availability/{datetime}'
+        'reservations_url': restaurant.reservations_url(),
+        'availability_url': restaurant.availability_url(),
+        'html_report_url': restaurant.html_report_url(),
+        'json_report_url': restaurant.json_report_url(),
     }]
 
 def test_can_create_reservation_for_a_restaurant(django_app):
