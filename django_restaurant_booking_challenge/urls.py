@@ -26,6 +26,9 @@ urlpatterns = [
     path('restaurants/<int:restaurant_id>/reservations',
         views.ReservationViewSet.as_view(dict(get='list', post='create')),
         name='reservations'),
+    path('restaurants/<int:restaurant_id>/availability/<str:datetime>',
+        views.AvailabilityView.as_view(),
+        name='availability'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

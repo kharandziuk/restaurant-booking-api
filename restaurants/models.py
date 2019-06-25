@@ -29,7 +29,10 @@ class Restaurant(models.Model):
 
     def num_seats_available(self, timestamp):
         """Get the number of available seats for a given timestamp."""
-        num_reserved = self.reservations(timestamp).aggregate(
+        reservations = self.reservations(timestamp)
+        if reservations.count() == 0:
+            return self.num_seats
+        num_reserved = reservations.aggregate(
             Sum('num_guests'),
         ).values()[0]
         return self.num_seats - num_reserved

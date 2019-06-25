@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from . import serializers, models
 
@@ -16,3 +16,18 @@ class ReservationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         restaurant_id = self.kwargs.get('restaurant_id')
         return super().get_queryset().filter(restaurant=restaurant_id)
+
+    def create(self, request, *args, **kwargs):
+        request.data['restaurant'] = restaurant_id = kwargs.get('restaurant_id')
+        return super().create(request, *args, **kwargs)
+
+
+class AvailabilityView(generics.RetrieveAPIView):
+    queryset = models.Restaurant.objects.all()
+    serializer_class = serializers.AvailabilitySerializer
+    lookup_url_kwarg = 'restaurant_id'
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['datetime'] = self.kwargs.get('datetime')
+        return context
