@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from rest_framework import viewsets, generics
 from rest_framework.renderers import TemplateHTMLRenderer
+from django.views.generic.base import View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 from . import serializers, models
 
@@ -15,11 +18,38 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer
 
     def get_queryset(self):
-        restaurant_id = self.kwargs.get('restaurant_id')
-        return super().get_queryset().filter(restaurant=restaurant_id)
+        queryset = super().get_queryset()
+        restaurant_id = self.request.query_params.get('restaurant', None)
+        if restaurant_id:
+            queryset = queryset.filter(restaurant=restaurant_id)
+        return queryset
 
     def create(self, request, *args, **kwargs):
-        request.data['restaurant'] = restaurant_id = kwargs.get('restaurant_id')
+        request.data['restaurant'] = request.query_params.get('restaurant')
+        return super().create(request, *args, **kwargs)
+
+
+class RestaurantReservationsForwardView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        print('here')
+        request.GET = request.GET.copy()
+        request.GET['restaurant'] = kwargs.get('restaurant_id')
+        return ReservationViewSet.as_view(dict(get='list', post='create'))(request)
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    queryset = models.Reservation.objects.all()
+    serializer_class = serializers.ReservationSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        restaurant_id = self.request.query_params.get('restaurant', None)
+        if restaurant_id:
+            queryset = queryset.filter(restaurant=restaurant_id)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        request.data['restaurant'] = request.query_params.get('restaurant')
         return super().create(request, *args, **kwargs)
 
 

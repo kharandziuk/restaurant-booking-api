@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.urls import reverse
 from django.conf import settings
+from django.urls import reverse
+from django.utils.http import urlencode
 import pytest
 import factory
 import datetime
@@ -12,13 +13,37 @@ from . import factories
 
 pytestmark = pytest.mark.django_db
 
+def reverseq(viewname, kwargs=None, query_kwargs=None):
+    """
+    Custom reverse to add a query string after the url
+    Example usage:
+    url = my_reverse('my_test_url', kwargs={'pk': object.id}, query_kwargs={'next': reverse('home')})
+    """
+    url = reverse(viewname, kwargs=kwargs)
+
+    if query_kwargs:
+        return u'%s?%s' % (url, urlencode(query_kwargs))
+
+    return url
+
 
 def test_can_receive_list_of_the_reservations_for_a_restaurant(django_app):
     restaurant = factories.RestaurantFactory()
     factories.ReservationFactory(restaurant=restaurant)
     other_reservation = factories.ReservationFactory()
     response = django_app.get(
-        reverse('reservations', kwargs={'restaurant_id': restaurant.id})
+        reverseq('reservations', query_kwargs={'restaurant': restaurant.id})
+    )
+    assert response.status_code == 200
+    assert len(response.json) == 1
+    assert not other_reservation.id in [r['id'] for r in response.json]
+
+def test_can_receive_list_of_the_reservations_for_a_restaurant_with_shortcut(django_app):
+    restaurant = factories.RestaurantFactory()
+    factories.ReservationFactory(restaurant=restaurant)
+    other_reservation = factories.ReservationFactory()
+    response = django_app.get(
+        reverse('restaurant-reservations', kwargs={'restaurant_id': restaurant.id})
     )
     assert response.status_code == 200
     assert len(response.json) == 1
@@ -44,6 +69,7 @@ def test_can_create_reservation_for_a_restaurant(django_app):
     response = django_app.get(reverse('restaurants'))
     assert response.status_code == 200
     _reservation = factories.ReservationFactory.build()
+    print(response.json[0]['reservations_url'])
     response = django_app.post_json(
         response.json[0]['reservations_url'],
         dict(

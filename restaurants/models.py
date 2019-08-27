@@ -4,11 +4,24 @@ from __future__ import unicode_literals
 from urllib.parse import unquote
 from rest_framework.reverse import reverse
 
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import (Q, Sum)
-from django.conf import settings
+from django.utils.http import urlencode
 
+def reverseq(viewname, kwargs=None, query_kwargs=None):
+    """
+    Custom reverse to add a query string after the url
+    Example usage:
+    url = my_reverse('my_test_url', kwargs={'pk': object.id}, query_kwargs={'next': reverse('home')})
+    """
+    url = reverse(viewname, kwargs=kwargs)
+
+    if query_kwargs:
+        return u'%s?%s' % (url, urlencode(query_kwargs))
+
+    return url
 
 class Restaurant(models.Model):
     """Model for restaurant."""
@@ -49,7 +62,7 @@ class Restaurant(models.Model):
         )
 
     def reservations_url(self):
-        return reverse('reservations', kwargs={
+        return reverse('restaurant-reservations',kwargs={
             'restaurant_id': self.id
         })
 
